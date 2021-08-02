@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import {
   TextInput, View, StyleSheet, Text,
@@ -5,8 +7,8 @@ import {
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Formik } from 'formik';
-import colors from '../../utils/index';
 import { StackScreenProps } from '@react-navigation/stack';
+import colors from '../../utils/index';
 import { RootStackParamList } from '../../types';
 
 const { PRIMARY_COLOR, BORDER_COLOR, BACKGROUND_COLOR } = colors;
@@ -15,7 +17,7 @@ const Login = ({
   navigation,
 }: StackScreenProps<RootStackParamList, 'NotFound'>) => (
   <Formik
-    initialValues={{ email: '', password: '', }}
+    initialValues={{ email: '', password: '' }}
     onSubmit={(values) => alert(values.email)}
   >
     {({

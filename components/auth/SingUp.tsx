@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react';
 import {
   TextInput, View, StyleSheet, Text,
@@ -5,8 +7,8 @@ import {
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Formik } from 'formik';
-import colors from '../../utils/index';
 import { StackScreenProps } from '@react-navigation/stack';
+import colors from '../../utils/index';
 import { RootStackParamList } from '../../types';
 
 const { PRIMARY_COLOR, BORDER_COLOR, BACKGROUND_COLOR } = colors;
@@ -76,7 +78,7 @@ const SingUp = ({
             />
           </View>
           <Button
-            buttonStyle={[styles.button, {flexDirection: 'row'}]}
+            buttonStyle={[styles.button, { flexDirection: 'row' }]}
             titleStyle={{
               color: '#707070', fontSize: 25, marginRight: 5, fontStyle: 'italic',
             }}
