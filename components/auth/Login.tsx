@@ -59,7 +59,7 @@ const Login = ({
             <Button
               title="Forgot Password"
               buttonStyle={styles.fogotPass}
-              onPress={() => console.log('aaa')}
+              onPress={() => navigation.push('Forgot')}
               titleStyle={{ color: '#707070', fontSize: 10 }}
             />
             <Button

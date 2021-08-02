@@ -5,6 +5,7 @@ import Login from '../components/auth/Login';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from '../components/Home/Home';
 import SingUp from '../components/auth/SingUp';
+import ForgotPass from '../components/auth/ForgotPass';
 
 export default function Index() {
   return (
@@ -22,6 +23,7 @@ function RootNavigator() {
       <Stack.Screen name='Login' component={Login}/>
       <Stack.Screen name='Home' component={Home}/>
       <Stack.Screen name='SingUp' component={SingUp}/>
+      <Stack.Screen name='Forgot' component={ForgotPass}/>
     </Stack.Navigator>
   );
 }
