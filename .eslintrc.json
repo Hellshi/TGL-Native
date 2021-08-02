@@ -16,13 +16,22 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "plugin:import/typescript"
     ],
+    "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
     "rules": {
       "react/jsx-filename-extension": "off",
       "no-use-before-define": "off",
       "no-alert": "warn",
       "no-console": "warn",
-      "no-unused-vars": "warn"
+      "no-unused-vars": "warn",
+      "eslint-plugin-no-explicit-type-exports": "off"
     }
 }

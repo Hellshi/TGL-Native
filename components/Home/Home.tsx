@@ -3,12 +3,14 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { View, Text } from 'react-native';
 import { RootStackParamList } from '../../types';
 
-export default function ForgotPass({
+const Home = ({
   route,
-}: StackScreenProps<RootStackParamList, 'NotFound'> ) {
+}: StackScreenProps<RootStackParamList, 'NotFound'> ) => {
   return (
     <View>
-      <Text>I'm Dumb</Text>
+      <Text>Home</Text>
     </View>
-  );
+  )
 }
+
+export default Home

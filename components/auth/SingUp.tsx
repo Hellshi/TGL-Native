@@ -11,11 +11,11 @@ import { RootStackParamList } from '../../types';
 
 const { PRIMARY_COLOR, BORDER_COLOR, BACKGROUND_COLOR } = colors;
 
-const Login = ({
+const SingUp = ({
   navigation,
 }: StackScreenProps<RootStackParamList, 'NotFound'>) => (
   <Formik
-    initialValues={{ email: '', password: '', }}
+    initialValues={{ email: '', password: '', name: '' }}
     onSubmit={(values) => alert(values.email)}
   >
     {({
@@ -43,6 +43,13 @@ const Login = ({
           <View style={styles.form}>
             <TextInput
               style={styles.TextInput}
+              placeholder="Name"
+              onChangeText={handleChange('name')}
+              onBlur={handleBlur('name')}
+              value={values.name}
+            />
+            <TextInput
+              style={styles.TextInput}
               placeholder="Email"
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
@@ -57,12 +64,6 @@ const Login = ({
               value={values.password}
             />
             <Button
-              title="Forgot Password"
-              buttonStyle={styles.fogotPass}
-              onPress={() => console.log('aaa')}
-              titleStyle={{ color: '#707070', fontSize: 10 }}
-            />
-            <Button
               buttonStyle={styles.button}
               titleStyle={{
                 color: PRIMARY_COLOR, fontSize: 25, marginRight: 5, fontStyle: 'italic',
@@ -75,14 +76,14 @@ const Login = ({
             />
           </View>
           <Button
-            buttonStyle={styles.button}
+            buttonStyle={[styles.button, {flexDirection: 'row'}]}
             titleStyle={{
               color: '#707070', fontSize: 25, marginRight: 5, fontStyle: 'italic',
             }}
-            onPress={() => navigation.push('SingUp')}
-            title="Sing-Up"
+            onPress={() => navigation.goBack()}
+            title="Back"
             icon={
-              <Icon name="arrow-right" size={25} color="#707070" />
+              <Icon name="arrow-left" size={25} color="#707070" />
             }
           />
 
@@ -112,8 +113,8 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     alignItems: 'center',
-    justifyContent: 'space-between',
     marginBottom: 15,
+    justifyContent: 'space-between',
     height: 110,
   },
   text: {
@@ -136,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default SingUp;
