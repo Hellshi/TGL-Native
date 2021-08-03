@@ -9,6 +9,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/blur": "^3.6.0",
     "@react-navigation/bottom-tabs": "^6.0.0",
     "@react-navigation/drawer": "^6.0.0",
     "@react-navigation/material-bottom-tabs": "^6.0.1",

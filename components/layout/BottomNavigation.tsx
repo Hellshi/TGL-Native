@@ -8,6 +8,7 @@ import colors from '../../utils';
 import Home from '../Home/Home';
 import { RootStackParamList } from '../../types';
 import Header from './Header';
+import Profile from '../profile/Profile';
 
 const { PRIMARY_COLOR } = colors;
 
@@ -30,7 +31,7 @@ const BottomNavigation = ({
         />
         <Tab.Screen
           name="Profile"
-          component={Home}
+          component={Profile}
           options={{
             tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
