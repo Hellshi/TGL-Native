@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-unused-vars */
 import React from 'react';
@@ -8,91 +9,97 @@ import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Formik } from 'formik';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useDispatch, useSelector } from 'react-redux';
+import { AuthAction } from '../../store/AuthSlice';
 import colors from '../../utils/index';
 import { RootStackParamList } from '../../types';
+import { RootState } from '../../interface';
 
 const { PRIMARY_COLOR, BORDER_COLOR, BACKGROUND_COLOR } = colors;
-
 const Login = ({
   navigation,
-}: StackScreenProps<RootStackParamList, 'NotFound'>) => (
-  <Formik
-    initialValues={{ email: '', password: '' }}
-    onSubmit={(values) => alert(values.email)}
-  >
-    {({
-      handleChange, handleBlur, handleSubmit, values,
-    }) => (
-      <View style={styles.main}>
-        <View style={styles.container}>
-          <View style={styles.textContainer}>
-            <Text style={[styles.text,
-              {
-                borderBottomColor: PRIMARY_COLOR,
-                borderBottomWidth: 5,
-                borderBottomRightRadius: 2,
-                borderBottomLeftRadius: 2,
-                fontSize: 30,
-              },
-            ]}
-            >
-              TGL
+}: StackScreenProps<RootStackParamList, 'NotFound'>) => {
+  const dispatch = useDispatch();
+  const IsloggedIn = useSelector((state: RootState) => state.Auth.isAuth);
+  return (
+    <Formik
+      initialValues={{ email: '', password: '' }}
+      onSubmit={(values) => { dispatch(AuthAction.autenticate()); navigation.push('Home'); console.log(IsloggedIn); }}
+    >
+      {({
+        handleChange, handleBlur, handleSubmit, values,
+      }) => (
+        <View style={styles.main}>
+          <View style={styles.container}>
+            <View style={styles.textContainer}>
+              <Text style={[styles.text,
+                {
+                  borderBottomColor: PRIMARY_COLOR,
+                  borderBottomWidth: 5,
+                  borderBottomRightRadius: 2,
+                  borderBottomLeftRadius: 2,
+                  fontSize: 30,
+                },
+              ]}
+              >
+                TGL
 
-            </Text>
-            <Text style={styles.text}>Authentication</Text>
-          </View>
+              </Text>
+              <Text style={styles.text}>Authentication</Text>
+            </View>
 
-          <View style={styles.form}>
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Email"
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-              value={values.email}
-            />
-            <TextInput
-              style={styles.TextInput}
-              placeholder="Password"
-              secureTextEntry
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
-              value={values.password}
-            />
-            <Button
-              title="Forgot Password"
-              buttonStyle={styles.fogotPass}
-              onPress={() => navigation.push('Forgot')}
-              titleStyle={{ color: '#707070', fontSize: 10 }}
-            />
+            <View style={styles.form}>
+              <TextInput
+                style={styles.TextInput}
+                placeholder="Email"
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+              />
+              <TextInput
+                style={styles.TextInput}
+                placeholder="Password"
+                secureTextEntry
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+              />
+              <Button
+                title="Forgot Password"
+                buttonStyle={styles.fogotPass}
+                onPress={() => navigation.push('Forgot')}
+                titleStyle={{ color: '#707070', fontSize: 10 }}
+              />
+              <Button
+                buttonStyle={styles.button}
+                titleStyle={{
+                  color: PRIMARY_COLOR, fontSize: 25, marginRight: 5, fontStyle: 'italic',
+                }}
+                onPress={handleSubmit}
+                title="Submit"
+                icon={
+                  <Icon name="arrow-right" size={25} color={PRIMARY_COLOR} />
+            }
+              />
+            </View>
             <Button
               buttonStyle={styles.button}
               titleStyle={{
-                color: PRIMARY_COLOR, fontSize: 25, marginRight: 5, fontStyle: 'italic',
+                color: '#707070', fontSize: 25, marginRight: 5, fontStyle: 'italic',
               }}
-              onPress={() => navigation.push('Home')}
-              title="Submit"
+              onPress={() => navigation.push('SingUp')}
+              title="Sing-Up"
               icon={
-                <Icon name="arrow-right" size={25} color={PRIMARY_COLOR} />
+                <Icon name="arrow-right" size={25} color="#707070" />
             }
             />
-          </View>
-          <Button
-            buttonStyle={styles.button}
-            titleStyle={{
-              color: '#707070', fontSize: 25, marginRight: 5, fontStyle: 'italic',
-            }}
-            onPress={() => navigation.push('SingUp')}
-            title="Sing-Up"
-            icon={
-              <Icon name="arrow-right" size={25} color="#707070" />
-            }
-          />
 
+          </View>
         </View>
-      </View>
-    )}
-  </Formik>
-);
+      )}
+    </Formik>
+  );
+};
 const styles = StyleSheet.create({
   main: {
     flex: 1,

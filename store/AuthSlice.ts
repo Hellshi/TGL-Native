@@ -4,14 +4,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const AuthSlice = createSlice({
   name: 'Auth',
   initialState: {
-    Isauth: false,
+    isAuth: false,
   },
   reducers: {
     autenticate(state) {
-      state.Isauth = true;
+      state.isAuth = true;
     },
     logOut(state) {
-      state.Isauth = false;
+      state.isAuth = false;
     },
   },
 });
