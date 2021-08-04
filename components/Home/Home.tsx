@@ -8,7 +8,6 @@ import {
 import { Button } from 'react-native-elements';
 import React, { useState } from 'react';
 import { RootStackParamList } from '../../types';
-import colors from '../../utils';
 
 const { height, width } = Dimensions.get('window');
 

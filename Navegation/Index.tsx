@@ -19,7 +19,6 @@ export default function Index() {
 }
 
 const Stack = createStackNavigator();
-const HomeStack = createStackNavigator();
 
 function RootNavigator() {
   const IsloggedIn = useSelector((state: RootState) => state.Auth.isAuth);
@@ -30,6 +29,7 @@ function RootNavigator() {
       <Stack.Screen name="Forgot" component={ForgotPass} />
 
       <Stack.Screen name="Home" component={IsloggedIn ? BottomNavigation : Login} />
+      <Stack.Screen name="Home2" component={Login} />
     </Stack.Navigator>
   );
 }

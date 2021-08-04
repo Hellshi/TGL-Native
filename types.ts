@@ -4,8 +4,8 @@
  */
 
 export type RootStackParamList = {
-  Root: undefined;
-  Home: undefined;
+  Home: { screen: string } | undefined;
+  Edit: undefined;
   SingUp: undefined;
   Forgot: undefined;
   NotFound: undefined;

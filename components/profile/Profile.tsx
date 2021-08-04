@@ -4,12 +4,19 @@ import React from 'react';
 import {
   View, StyleSheet, Text, Dimensions, ImageBackground,
 } from 'react-native';
-import { Avatar } from 'react-native-elements';
+import { Avatar, Button } from 'react-native-elements';
+import { StackScreenProps } from '@react-navigation/stack';
+import colors from '../../utils';
+import { RootStackParamList } from '../../types';
+
+const { PRIMARY_COLOR } = colors;
 
 const image = { uri: 'http://blog.investimentofutebol.com/wp-content/uploads/2017/10/102-Como-sacar-dinheiro-na-Bet365.jpg' };
 
 const { height, width } = Dimensions.get('window');
-const Profile = () => (
+const Profile = ({
+  navigation,
+}: StackScreenProps<RootStackParamList, 'NotFound'>) => (
   <View style={styles.main}>
     <View style={styles.avatarContainer}>
       <ImageBackground style={styles.image} source={image} blurRadius={1} resizeMode="cover">
@@ -21,7 +28,7 @@ const Profile = () => (
       </ImageBackground>
     </View>
     <View style={styles.container}>
-      <Text>Edit Profile</Text>
+      <Button title="Edit Profile" buttonStyle={styles.button} onPress={() => navigation.navigate('Edit')} />
     </View>
   </View>
 );
@@ -32,8 +39,6 @@ const styles = StyleSheet.create({
   },
   container: {
     width: (width * 0.9),
-    borderColor: 'red',
-    borderWidth: 1,
     alignSelf: 'center',
     alignContent: 'center',
     marginTop: 20,
@@ -54,6 +59,10 @@ const styles = StyleSheet.create({
     flex: 1,
     width,
     justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: PRIMARY_COLOR,
+    borderRadius: 10,
   },
 });
 

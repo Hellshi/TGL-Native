@@ -24,7 +24,7 @@ const Login = ({
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
-      onSubmit={(values) => { dispatch(AuthAction.autenticate()); navigation.push('Home'); console.log(IsloggedIn); }}
+      onSubmit={(values) => { dispatch(AuthAction.autenticate()); navigation.push('Home'); }}
     >
       {({
         handleChange, handleBlur, handleSubmit, values,
