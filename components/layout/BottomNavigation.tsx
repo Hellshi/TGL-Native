@@ -10,6 +10,7 @@ import { RootStackParamList } from '../../types';
 import Header from './Header';
 import Profile from '../profile/Profile';
 import EditProfile from '../profile/EditProfile';
+import game from '../game/game';
 
 const { PRIMARY_COLOR } = colors;
 
@@ -18,12 +19,19 @@ const BottomNavigation = ({
 }: StackScreenProps<RootStackParamList, 'NotFound'>) => {
   const Tab = createBottomTabNavigator();
   const ProfileStack = createStackNavigator();
+  const GameStack = createStackNavigator();
 
   const ProfileScreens = () => (
     <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
       <ProfileStack.Screen name="ProfileMain" component={Profile} />
       <ProfileStack.Screen name="Edit" component={EditProfile} />
     </ProfileStack.Navigator>
+  );
+
+  const GameScreen = () => (
+    <GameStack.Navigator screenOptions={{ headerShown: false }}>
+      <GameStack.Screen name="Games" component={game} />
+    </GameStack.Navigator>
   );
 
   return (
@@ -36,6 +44,16 @@ const BottomNavigation = ({
             tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={PRIMARY_COLOR} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="games"
+          component={GameScreen}
+          options={{
+            tabBarShowLabel: false,
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="bitcoin" color={PRIMARY_COLOR} size={size} />
             ),
           }}
         />

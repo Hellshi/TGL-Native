@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useState } from 'react';
 import {
-  TextInput, View, StyleSheet, Text, Alert,
+  TextInput, View, StyleSheet, Text, Alert, ScrollView,
 } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -49,83 +49,88 @@ const EditProfile = () => {
     ],
   );
   return (
-    <View style={styles.main}>
-      <View style={styles.info}>
-        <Text style={styles.title}> Dallon Weekes </Text>
-        <Avatar rounded size="large" source={{ uri: singleFile }} />
-      </View>
-      <View style={styles.form}>
-        <Formik
-          initialValues={{
-            email: '', password: '', name: '', conformPassword: '',
-          }}
-          onSubmit={(values) => { alert('submit'); }}
-        >
-          {({
-            handleChange, handleBlur, handleSubmit, values,
-          }) => (
-            <View>
+    <ScrollView style={styles.main}>
+      <View style={styles.mainContainer}>
+        <View style={styles.info}>
+          <Text style={styles.title}> Dallon Weekes </Text>
+          <Avatar rounded size="large" source={{ uri: singleFile }} />
+        </View>
+        <View style={styles.form}>
+          <Formik
+            initialValues={{
+              email: '', password: '', name: '', conformPassword: '',
+            }}
+            onSubmit={(values) => { alert('submit'); }}
+          >
+            {({
+              handleChange, handleBlur, handleSubmit, values,
+            }) => (
               <View>
-                <View style={styles.form}>
-                  <TextInput
-                    style={styles.TextInput}
-                    placeholder="Name"
-                    onChangeText={handleChange('Name')}
-                    onBlur={handleBlur('Name')}
-                    value={values.name}
-                  />
-                  <TextInput
-                    style={styles.TextInput}
-                    placeholder="Email"
-                    onChangeText={handleChange('email')}
-                    onBlur={handleBlur('email')}
-                    value={values.email}
-                  />
-                  <TextInput
-                    style={styles.TextInput}
-                    placeholder="Password"
-                    secureTextEntry
-                    onChangeText={handleChange('password')}
-                    onBlur={handleBlur('password')}
-                    value={values.password}
-                  />
-                  <TextInput
-                    style={styles.TextInput}
-                    placeholder="Confirm Password"
-                    secureTextEntry
-                    onChangeText={handleChange('Conform Password')}
-                    onBlur={handleBlur('Conform Password')}
-                    value={values.conformPassword}
-                  />
-                  <Button title="Change Profile Pic" buttonStyle={{ backgroundColor: PRIMARY_COLOR }} onPress={uploadImage} />
-                  <Button
-                    buttonStyle={styles.button}
-                    titleStyle={{
-                      color: PRIMARY_COLOR, fontSize: 25, marginRight: 5, fontStyle: 'italic',
-                    }}
-                    onPress={handleSubmit}
-                    title="Submit"
-                    icon={
-                      <Icon name="arrow-right" size={25} color={PRIMARY_COLOR} />
+                <View>
+                  <View style={styles.form}>
+                    <TextInput
+                      style={styles.TextInput}
+                      placeholder="Name"
+                      onChangeText={handleChange('Name')}
+                      onBlur={handleBlur('Name')}
+                      value={values.name}
+                    />
+                    <TextInput
+                      style={styles.TextInput}
+                      placeholder="Email"
+                      onChangeText={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      value={values.email}
+                    />
+                    <TextInput
+                      style={styles.TextInput}
+                      placeholder="Password"
+                      secureTextEntry
+                      onChangeText={handleChange('password')}
+                      onBlur={handleBlur('password')}
+                      value={values.password}
+                    />
+                    <TextInput
+                      style={styles.TextInput}
+                      placeholder="Confirm Password"
+                      secureTextEntry
+                      onChangeText={handleChange('Conform Password')}
+                      onBlur={handleBlur('Conform Password')}
+                      value={values.conformPassword}
+                    />
+                    <Button title="Change Profile Pic" buttonStyle={{ backgroundColor: PRIMARY_COLOR }} onPress={uploadImage} />
+                    <Button
+                      buttonStyle={styles.button}
+                      titleStyle={{
+                        color: PRIMARY_COLOR, fontSize: 25, marginRight: 5, fontStyle: 'italic',
+                      }}
+                      onPress={handleSubmit}
+                      title="Submit"
+                      icon={
+                        <Icon name="arrow-right" size={25} color={PRIMARY_COLOR} />
             }
-                  />
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-          )}
-        </Formik>
+            )}
+          </Formik>
+        </View>
+        <Button title="Delete Profile" buttonStyle={{ backgroundColor: 'transparent', marginTop: 20 }} titleStyle={{ color: '#ed2939' }} onPress={showConfirmDialog} />
       </View>
-      <Button title="Delete Profile" buttonStyle={{ backgroundColor: 'transparent' }} titleStyle={{ color: 'red' }} onPress={showConfirmDialog} />
-    </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
   main: {
-    alignItems: 'center',
+    flex: 1,
   },
   info: {
     flexDirection: 'row-reverse',
     margin: 20,
+  },
+  mainContainer: {
+    alignItems: 'center',
   },
   title: {
     fontSize: 20,
