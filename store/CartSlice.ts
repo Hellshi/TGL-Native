@@ -24,6 +24,9 @@ const cartSlice = createSlice({
         state.selectedNumbers = state.selectedNumbers.concat(newNumber);
       }
     },
+    clearNumbers(state) {
+      state.selectedNumbers = [];
+    },
   },
 });
 
