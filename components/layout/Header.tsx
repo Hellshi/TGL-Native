@@ -4,13 +4,15 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../interface';
 import { AuthAction } from '../../store/AuthSlice';
 import colors from '../../utils';
 
 const { PRIMARY_COLOR } = colors;
 
 const HeaderComponent = () => {
+  const selectedNumbers = useSelector((state: RootState) => state.cart.selectedNumbers);
   const dispatch = useDispatch();
   const LogOut = () => {
     dispatch(AuthAction.logOut());
@@ -34,11 +36,14 @@ const HeaderComponent = () => {
             color="#C1C1C1"
             onPress={LogOut}
           />
-          <Icon
-            name="shopping-cart"
-            type="material"
-            color={PRIMARY_COLOR}
-          />
+          {selectedNumbers.length === 0 ? <Text /> : (
+            <Icon
+              name="shopping-cart"
+              type="material"
+              color={PRIMARY_COLOR}
+            />
+          )}
+
         </View>
 )}
     />
