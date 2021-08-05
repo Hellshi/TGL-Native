@@ -14,6 +14,8 @@ import { AuthAction } from '../../store/AuthSlice';
 import colors from '../../utils/index';
 import { RootStackParamList } from '../../types';
 import { RootState } from '../../interface';
+import api from '../../services/api';
+import styles from './Styles';
 
 const { PRIMARY_COLOR, BORDER_COLOR, BACKGROUND_COLOR } = colors;
 const Login = ({
@@ -24,7 +26,27 @@ const Login = ({
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
-      onSubmit={(values) => { dispatch(AuthAction.autenticate()); navigation.push('Home'); }}
+      onSubmit={async (values) => {
+        try {
+          const postResponse = await api.post('/login', {
+            email: values.email,
+            password: values.password,
+          });
+          const { data } = postResponse;
+          dispatch(
+            AuthAction.login({
+              name: data.user.name,
+              email: data.user.email,
+              picture: data.user.picture,
+              is_admin: data.user.is_admin,
+            }),
+          );
+          api.defaults.headers.Authorization = `Bearer ${data.token.token}`;
+          navigation.push('Home');
+        } catch (error) {
+          alert('Credenciais de usuário inválidas');
+        }
+      }}
     >
       {({
         handleChange, handleBlur, handleSubmit, values,
@@ -100,49 +122,5 @@ const Login = ({
     </Formik>
   );
 };
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-    backgroundColor: BACKGROUND_COLOR,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  container: {
-    height: 350,
-    justifyContent: 'space-between',
-
-  },
-  form: {
-    width: 250,
-    borderWidth: 1,
-    borderColor: BORDER_COLOR,
-    borderRadius: 15,
-    backgroundColor: '#FFFFFF',
-  },
-  textContainer: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 15,
-    height: 110,
-  },
-  text: {
-    fontSize: 30,
-    color: '#707070',
-    fontWeight: 'bold',
-    fontStyle: 'italic',
-  },
-  TextInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: BORDER_COLOR,
-    padding: 10,
-  },
-  fogotPass: {
-    textAlign: 'left',
-    backgroundColor: 'transparent',
-  },
-  button: {
-    flexDirection: 'row-reverse', backgroundColor: 'transparent',
-  },
-});
 
 export default Login;

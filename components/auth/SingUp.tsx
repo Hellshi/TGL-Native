@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react';
@@ -10,8 +11,9 @@ import { Formik } from 'formik';
 import { StackScreenProps } from '@react-navigation/stack';
 import colors from '../../utils/index';
 import { RootStackParamList } from '../../types';
+import styles from './styles';
 
-const { PRIMARY_COLOR, BORDER_COLOR, BACKGROUND_COLOR } = colors;
+const { PRIMARY_COLOR } = colors;
 
 const SingUp = ({
   navigation,
@@ -94,49 +96,5 @@ const SingUp = ({
     )}
   </Formik>
 );
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-    backgroundColor: BACKGROUND_COLOR,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  container: {
-    height: 350,
-    justifyContent: 'space-between',
-
-  },
-  form: {
-    width: 250,
-    borderWidth: 1,
-    borderColor: BORDER_COLOR,
-    borderRadius: 15,
-    backgroundColor: '#FFFFFF',
-  },
-  textContainer: {
-    alignItems: 'center',
-    marginBottom: 15,
-    justifyContent: 'space-between',
-    height: 110,
-  },
-  text: {
-    fontSize: 30,
-    color: '#707070',
-    fontWeight: 'bold',
-    fontStyle: 'italic',
-  },
-  TextInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: BORDER_COLOR,
-    padding: 10,
-  },
-  fogotPass: {
-    textAlign: 'left',
-    backgroundColor: 'transparent',
-  },
-  button: {
-    flexDirection: 'row-reverse', backgroundColor: 'transparent',
-  },
-});
 
 export default SingUp;
