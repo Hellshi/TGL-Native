@@ -7,13 +7,10 @@ import {
 import { Avatar, Button } from 'react-native-elements';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
-import colors from '../../utils';
+import styles from './styles';
 import { RootStackParamList } from '../../types';
 import { RootState } from '../../interface';
 
-const { PRIMARY_COLOR } = colors;
-
-const { height, width } = Dimensions.get('window');
 const Profile = ({
   navigation,
 }: StackScreenProps<RootStackParamList, 'NotFound'>) => {
@@ -36,37 +33,5 @@ const Profile = ({
     </View>
   );
 };
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  container: {
-    width: (width * 0.9),
-    alignSelf: 'center',
-    alignContent: 'center',
-    marginTop: 20,
-  },
-  name: {
-    textAlign: 'center',
-    alignSelf: 'center',
-    marginLeft: 20,
-    color: '#ffff',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  avatarContainer: {
-    width,
-    height: 250,
-  },
-  image: {
-    flex: 1,
-    width,
-    justifyContent: 'center',
-  },
-  button: {
-    backgroundColor: PRIMARY_COLOR,
-    borderRadius: 10,
-  },
-});
 
 export default Profile;

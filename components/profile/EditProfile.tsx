@@ -9,9 +9,10 @@ import { Avatar, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Formik } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
+import styles from './styles';
 import colors from '../../utils';
 
-const { PRIMARY_COLOR, BORDER_COLOR } = colors;
+const { PRIMARY_COLOR } = colors;
 
 const EditProfile = () => {
   const [singleFile, setSingleFile] = useState('https://i.pinimg.com/736x/39/f0/6b/39f06b3e7051ea76931637e7b8b43e87.jpg');
@@ -100,7 +101,7 @@ const EditProfile = () => {
                     />
                     <Button title="Change Profile Pic" buttonStyle={{ backgroundColor: PRIMARY_COLOR }} onPress={uploadImage} />
                     <Button
-                      buttonStyle={styles.button}
+                      buttonStyle={styles.buttonEdit}
                       titleStyle={{
                         color: PRIMARY_COLOR, fontSize: 25, marginRight: 5, fontStyle: 'italic',
                       }}
@@ -121,40 +122,5 @@ const EditProfile = () => {
     </ScrollView>
   );
 };
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  info: {
-    flexDirection: 'row-reverse',
-    margin: 20,
-  },
-  mainContainer: {
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: 15,
-    marginTop: 20,
-    marginBottom: 20,
-    color: PRIMARY_COLOR,
-  },
-  form: {
-    width: 250,
-    borderWidth: 1,
-    borderColor: BORDER_COLOR,
-    borderRadius: 15,
-    backgroundColor: '#FFFFFF',
-  },
-  TextInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: BORDER_COLOR,
-    padding: 10,
-  },
-  button: {
-    flexDirection: 'row-reverse', backgroundColor: 'transparent',
-  },
-});
 
 export default EditProfile;
