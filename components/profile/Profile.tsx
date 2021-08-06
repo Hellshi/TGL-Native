@@ -6,33 +6,36 @@ import {
 } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useSelector } from 'react-redux';
 import colors from '../../utils';
 import { RootStackParamList } from '../../types';
+import { RootState } from '../../interface';
 
 const { PRIMARY_COLOR } = colors;
-
-const image = { uri: 'http://blog.investimentofutebol.com/wp-content/uploads/2017/10/102-Como-sacar-dinheiro-na-Bet365.jpg' };
 
 const { height, width } = Dimensions.get('window');
 const Profile = ({
   navigation,
-}: StackScreenProps<RootStackParamList, 'NotFound'>) => (
-  <View style={styles.main}>
-    <View style={styles.avatarContainer}>
-      <ImageBackground style={styles.image} source={image} blurRadius={1} resizeMode="cover">
-        <Avatar containerStyle={{ alignSelf: 'center', borderColor: '#707070', borderWidth: 4 }} rounded size="xlarge" source={{ uri: 'https://i.pinimg.com/736x/39/f0/6b/39f06b3e7051ea76931637e7b8b43e87.jpg' }} />
-        <Text style={styles.name}>
-          Dallon James Weekes
-        </Text>
-        <Text style={{ alignSelf: 'center', color: '#fff' }}>dallon@weekes.com</Text>
-      </ImageBackground>
+}: StackScreenProps<RootStackParamList, 'NotFound'>) => {
+  const user = useSelector((state: RootState) => state.Auth.user);
+  const image = { uri: 'http://blog.investimentofutebol.com/wp-content/uploads/2017/10/102-Como-sacar-dinheiro-na-Bet365.jpg' };
+  return (
+    <View style={styles.main}>
+      <View style={styles.avatarContainer}>
+        <ImageBackground style={styles.image} source={image} blurRadius={1} resizeMode="cover">
+          <Avatar containerStyle={{ alignSelf: 'center', borderColor: '#707070', borderWidth: 4 }} rounded size="xlarge" source={{ uri: user.picture ? user.picture.url : 'https://hospitalevandroribeiro.com.br/images/no-photo.png' }} />
+          <Text style={styles.name}>
+            {user.name}
+          </Text>
+          <Text style={{ alignSelf: 'center', color: '#fff' }}>dallon@weekes.com</Text>
+        </ImageBackground>
+      </View>
+      <View style={styles.container}>
+        <Button title="Edit Profile" buttonStyle={styles.button} onPress={() => navigation.navigate('Edit')} />
+      </View>
     </View>
-    <View style={styles.container}>
-      <Button title="Edit Profile" buttonStyle={styles.button} onPress={() => navigation.navigate('Edit')} />
-    </View>
-  </View>
-);
-
+  );
+};
 const styles = StyleSheet.create({
   main: {
     flex: 1,

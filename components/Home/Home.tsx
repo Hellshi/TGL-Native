@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-use-before-define */
@@ -57,8 +58,8 @@ const Home = ({
         { recentGames.length === 0 ? (
           <Text> Opps, parece que não temos nenhum jogo aqui! </Text>
         ) : (
-          recentGames.map((item) => (
-            <View style={[styles.recentGame, { borderLeftColor: item.type.color }]}>
+          recentGames.map((item, id) => (
+            <View key={id} style={[styles.recentGame, { borderLeftColor: item.type.color }]}>
               <Text style={{ textAlign: 'justify' }}>
                 {item.choosen_numbers}
               </Text>

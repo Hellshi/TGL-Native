@@ -58,3 +58,11 @@ export interface RecentGames {
     min_cart_value: number;
   };
 }
+
+export interface data {
+  id: number;
+  email: string;
+  is_admin: boolean;
+  name: string;
+  token: string;
+}

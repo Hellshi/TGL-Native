@@ -104,7 +104,7 @@ const EditProfile = () => {
                       titleStyle={{
                         color: PRIMARY_COLOR, fontSize: 25, marginRight: 5, fontStyle: 'italic',
                       }}
-                      onPress={handleSubmit}
+                      onPress={() => handleSubmit()}
                       title="Submit"
                       icon={
                         <Icon name="arrow-right" size={25} color={PRIMARY_COLOR} />
