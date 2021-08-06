@@ -39,3 +39,22 @@ export interface CartItem {
   color: string;
   numbers: (number | string)[];
 }
+
+export interface RecentGames {
+  id: number;
+  choosen_numbers: string;
+  user_id: number;
+  game_id: number;
+  price: number;
+  created_at: string;
+  type: {
+    id: number;
+    game_type: string;
+    description: string;
+    range: number;
+    price: number;
+    max_number: number;
+    color: string;
+    min_cart_value: number;
+  };
+}
