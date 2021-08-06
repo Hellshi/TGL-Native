@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-unused-vars */

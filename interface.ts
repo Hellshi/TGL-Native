@@ -66,3 +66,11 @@ export interface data {
   name: string;
   token: string;
 }
+
+export interface values {
+  email: string,
+  name: string,
+  password: string,
+  conformPassword: string,
+  oldPassword: string,
+}

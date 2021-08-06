@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-use-before-define */
@@ -9,7 +10,9 @@ import { Avatar, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Formik } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { RootState } from '../../interface';
 import { AuthAction } from '../../store/AuthSlice';
 import styles from './styles';
 import colors from '../../utils';
@@ -18,7 +21,9 @@ import api from '../../services/api';
 const { PRIMARY_COLOR } = colors;
 
 const EditProfile = () => {
-  const [singleFile, setSingleFile] = useState('https://i.pinimg.com/736x/39/f0/6b/39f06b3e7051ea76931637e7b8b43e87.jpg');
+  const user = useSelector((state: RootState) => state.Auth.user);
+  const [singleFile, setSingleFile] = useState(user.picture ? user.picture.url : 'https://hospitalevandroribeiro.com.br/images/no-photo.png');
+  const [file, setFile] = useState('');
   const [showBox, setShowBox] = useState(true);
   const dispatch = useDispatch();
 
@@ -32,6 +37,24 @@ const EditProfile = () => {
 
     if (!result.cancelled) {
       setSingleFile(result.uri);
+      console.log(result);
+      const fileName = result.uri.split('/').pop() || '';
+      setFile(fileName);
+    }
+  };
+
+  const addPicture = async () => {
+    const formData = new FormData();
+    const type = file.split('.');
+    formData.append('file', { uri: singleFile, name: file, type: `image/${type[1]}` });
+    console.log(formData);
+    try {
+      const response = await api.post('/file/add-pic', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      console.log(response.status);
+    } catch (err) {
+      console.log({ err });
     }
   };
 
@@ -39,7 +62,6 @@ const EditProfile = () => {
     'Are your sure?',
     'Are you sure you want to remove this beautiful box?',
     [
-      // The "Yes" button
       {
         text: 'Yes',
         onPress: async () => {
@@ -47,33 +69,47 @@ const EditProfile = () => {
             const response = await api.delete('/user/delete');
             dispatch(AuthAction.logOut());
           } catch (err) {
-            console.log(err);
+            alert(err);
           }
         },
       },
-      // The "No" button
-      // Does nothing but dismiss the dialog when tapped
       {
         text: 'No',
-        onPress: () => {
-          console.log('a');
-        },
       },
     ],
   );
+
   return (
     <ScrollView style={styles.main}>
       <View style={styles.mainContainer}>
         <View style={styles.info}>
-          <Text style={styles.title}> Dallon Weekes </Text>
+          <Text style={styles.title}>
+            {user.name}
+          </Text>
           <Avatar rounded size="large" source={{ uri: singleFile }} />
         </View>
         <View style={styles.form}>
           <Formik
             initialValues={{
-              email: '', password: '', name: '', conformPassword: '',
+              email: user.email, password: '', name: user.name, conformPassword: '', oldPassword: '',
             }}
-            onSubmit={(values) => { alert('submit'); }}
+            onSubmit={async (values) => {
+              try {
+                const PutResponse = await api.put('/user/update', {
+                  email: values.email,
+                  oldPassword: values.oldPassword,
+                  password: values.password,
+                  ConfirmPassword: values.conformPassword,
+                  name: values.name,
+                });
+                if (file.trim().length > 0) {
+                  await addPicture();
+                }
+                alert('Dados atualizados con sucesso');
+              } catch (error) {
+                console.log(error);
+              }
+            }}
           >
             {({
               handleChange, handleBlur, handleSubmit, values,
@@ -84,8 +120,8 @@ const EditProfile = () => {
                     <TextInput
                       style={styles.TextInput}
                       placeholder="Name"
-                      onChangeText={handleChange('Name')}
-                      onBlur={handleBlur('Name')}
+                      onChangeText={handleChange('name')}
+                      onBlur={handleBlur('name')}
                       value={values.name}
                     />
                     <TextInput
@@ -94,6 +130,14 @@ const EditProfile = () => {
                       onChangeText={handleChange('email')}
                       onBlur={handleBlur('email')}
                       value={values.email}
+                    />
+                    <TextInput
+                      style={styles.TextInput}
+                      placeholder="Old Password"
+                      secureTextEntry
+                      onChangeText={handleChange('oldPassword')}
+                      onBlur={handleBlur('oldPassword')}
+                      value={values.oldPassword}
                     />
                     <TextInput
                       style={styles.TextInput}
