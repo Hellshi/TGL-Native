@@ -3,20 +3,24 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useState } from 'react';
 import {
-  TextInput, View, StyleSheet, Text, Alert, ScrollView,
+  TextInput, View, Text, Alert, ScrollView,
 } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Formik } from 'formik';
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch } from 'react-redux';
+import { AuthAction } from '../../store/AuthSlice';
 import styles from './styles';
 import colors from '../../utils';
+import api from '../../services/api';
 
 const { PRIMARY_COLOR } = colors;
 
 const EditProfile = () => {
   const [singleFile, setSingleFile] = useState('https://i.pinimg.com/736x/39/f0/6b/39f06b3e7051ea76931637e7b8b43e87.jpg');
   const [showBox, setShowBox] = useState(true);
+  const dispatch = useDispatch();
 
   const uploadImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -38,14 +42,22 @@ const EditProfile = () => {
       // The "Yes" button
       {
         text: 'Yes',
-        onPress: () => {
-          setShowBox(false);
+        onPress: async () => {
+          try {
+            const response = await api.delete('/user/delete');
+            dispatch(AuthAction.logOut());
+          } catch (err) {
+            console.log(err);
+          }
         },
       },
       // The "No" button
       // Does nothing but dismiss the dialog when tapped
       {
         text: 'No',
+        onPress: () => {
+          console.log('a');
+        },
       },
     ],
   );

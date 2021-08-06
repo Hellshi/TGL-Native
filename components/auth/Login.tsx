@@ -46,7 +46,7 @@ const Login = ({
           api.defaults.headers.Authorization = `Bearer ${data.token.token}`;
           navigation.push('Home');
         } catch (error) {
-          console.log(error);
+          alert('Credenciais de usuário inválidas');
         }
       }}
     >
