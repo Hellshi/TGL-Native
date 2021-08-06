@@ -15,7 +15,7 @@ import colors from '../../utils/index';
 import { RootStackParamList } from '../../types';
 import { RootState } from '../../interface';
 import api from '../../services/api';
-import styles from './Styles';
+import styles from './styles';
 
 const { PRIMARY_COLOR, BORDER_COLOR, BACKGROUND_COLOR } = colors;
 const Login = ({
@@ -28,11 +28,13 @@ const Login = ({
       initialValues={{ email: '', password: '' }}
       onSubmit={async (values) => {
         try {
+          console.log(values.email, values.password);
           const postResponse = await api.post('/login', {
             email: values.email,
             password: values.password,
           });
           const { data } = postResponse;
+          console.log(data);
           dispatch(
             AuthAction.login({
               name: data.user.name,
@@ -44,7 +46,7 @@ const Login = ({
           api.defaults.headers.Authorization = `Bearer ${data.token.token}`;
           navigation.push('Home');
         } catch (error) {
-          alert('Credenciais de usuário inválidas');
+          console.log(error);
         }
       }}
     >
@@ -97,7 +99,7 @@ const Login = ({
                 titleStyle={{
                   color: PRIMARY_COLOR, fontSize: 25, marginRight: 5, fontStyle: 'italic',
                 }}
-                onPress={handleSubmit}
+                onPress={() => handleSubmit()}
                 title="Submit"
                 icon={
                   <Icon name="arrow-right" size={25} color={PRIMARY_COLOR} />

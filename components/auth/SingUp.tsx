@@ -12,6 +12,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import colors from '../../utils/index';
 import { RootStackParamList } from '../../types';
 import styles from './styles';
+import api from '../../services/api';
 
 const { PRIMARY_COLOR } = colors;
 
@@ -20,7 +21,18 @@ const SingUp = ({
 }: StackScreenProps<RootStackParamList, 'NotFound'>) => (
   <Formik
     initialValues={{ email: '', password: '', name: '' }}
-    onSubmit={(values) => alert(values.email)}
+    onSubmit={async (values) => {
+      try {
+        const postRespnse = await api.post('/user/create', {
+          email: values.email,
+          password: values.password,
+          name: values.name,
+        });
+        navigation.navigate('Home');
+      } catch (error) {
+        alert(error.response.data.error.message);
+      }
+    }}
   >
     {({
       handleChange, handleBlur, handleSubmit, values,
@@ -72,7 +84,7 @@ const SingUp = ({
               titleStyle={{
                 color: PRIMARY_COLOR, fontSize: 25, marginRight: 5, fontStyle: 'italic',
               }}
-              onPress={() => navigation.push('Home')}
+              onPress={() => handleSubmit()}
               title="Submit"
               icon={
                 <Icon name="arrow-right" size={25} color={PRIMARY_COLOR} />
