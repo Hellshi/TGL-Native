@@ -15,7 +15,7 @@ const { PRIMARY_COLOR } = colors;
 
 const HeaderComponent = () => {
   const [cartState, setCartState] = useState(false);
-  const selectedNumbers = useSelector((state: RootState) => state.cart.selectedNumbers);
+  const gamesSaved = useSelector((state: RootState) => state.cart.buyedGames);
   const dispatch = useDispatch();
   const LogOut = () => {
     dispatch(AuthAction.logOut());
@@ -50,7 +50,7 @@ const HeaderComponent = () => {
               color="#C1C1C1"
               onPress={LogOut}
             />
-            {selectedNumbers.length === 0 ? <Text /> : (
+            {gamesSaved.length === 0 ? <Text /> : (
               <Icon
                 name="shopping-cart"
                 type="material"

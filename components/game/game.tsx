@@ -8,14 +8,15 @@ import {
   View, Text, ScrollView, ActivityIndicator,
 } from 'react-native';
 import { Button } from 'react-native-elements';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { CartActions } from '../../store/CartSlice';
-import { Game, RootState } from '../../interface';
+import { Game } from '../../interface';
 import styles from './style';
 import api from '../../services/api';
 
 const game = () => {
+  const dispatch = useDispatch();
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGame, setSelectedGame] = useState<Game>({
     id: 0,
@@ -56,6 +57,25 @@ const game = () => {
   };
 
   const clearNumbers = () => {
+    setSelectedNumbers([]);
+  };
+
+  const handleAddToCart = () => {
+    if (selectedNumbers.length < selectedGame.max_number) {
+      alert(
+        `Opps, selecione mais ${
+          selectedGame.max_number - selectedNumbers.length
+        } números para continuar!`,
+      );
+      return;
+    }
+    dispatch(CartActions.buyGames({
+      id: selectedGame.id,
+      type: selectedGame.game_type,
+      numbers: selectedNumbers,
+      color: selectedGame.color,
+      price: selectedGame.price,
+    }));
     setSelectedNumbers([]);
   };
 
@@ -151,6 +171,7 @@ const game = () => {
                         />
                         <Button
                           title="Add to Cart"
+                          onPress={handleAddToCart}
                           buttonStyle={styles.actionAddToCart}
                           icon={
                             <Icon name="cart" size={15} color="#ffff" />

@@ -19,7 +19,7 @@ export interface RootState {
   }
 }
 
-cart: {selectedNumbers: []}
+cart: {buyedGames: []}
 }
 
 export interface Game {
