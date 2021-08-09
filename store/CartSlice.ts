@@ -12,8 +12,12 @@ const cartSlice = createSlice({
     buyGames(state, action) {
       const newItens = action.payload;
       state.buyedGames = state.buyedGames.concat(newItens);
-      // eslint-disable-next-line no-console
-      console.log(state.buyedGames);
+    },
+    deleteGame (state, action) {
+      state.buyedGames.splice(action.payload, 1);
+    },
+    clearCart(state) {
+      state.buyedGames = [];
     },
   },
 });

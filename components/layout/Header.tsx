@@ -1,11 +1,15 @@
+/* eslint-disable react/jsx-boolean-value */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import {
+  View, StyleSheet, Text,
+} from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import MenuDrawer from 'react-native-side-drawer';
+import Modal from 'react-native-modal';
 import { RootState } from '../../interface';
 import { AuthAction } from '../../store/AuthSlice';
 import colors from '../../utils';
@@ -22,15 +26,25 @@ const HeaderComponent = () => {
   };
   return (
     <>
-      <MenuDrawer
-        open={cartState}
-        drawerContent={CartSide(setCartState)}
-        drawerPercentage={70}
-        animationTime={250}
-        overlay
-        position="right"
-        opacity={0.9}
-      />
+
+      <Modal
+        style={{
+          margin: 0,
+        }}
+        isVisible={cartState}
+        hasBackdrop={true}
+        backdropColor="black"
+        backdropOpacity={0.7}
+        animationIn="slideInRight"
+        animationOut="slideOutRight"
+        swipeDirection="right"
+        useNativeDriver
+        hideModalContentWhileAnimating
+      >
+        <View style={{ flex: 1 }}>
+          <CartSide setCartState={setCartState} />
+        </View>
+      </Modal>
 
       <Header
         containerStyle={styles.main}
@@ -71,6 +85,7 @@ const styles = StyleSheet.create({
     height: 100,
     alignContent: 'center',
     justifyContent: 'center',
+    overflow: 'visible',
   },
   iconsContainer: {
     flexDirection: 'row-reverse',

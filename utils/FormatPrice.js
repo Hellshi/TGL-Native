@@ -3,7 +3,7 @@
 import 'intl';
 import 'intl/locale-data/jsonp/br';
 
-export const FormatPrice = (value: number) => {
+export const FormatPrice = (value) => {
   const formated = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',

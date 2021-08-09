@@ -24,6 +24,17 @@ const Home = ({
       setAllGames(data);
     });
   }, []);
+
+  const FormatPrice = (value:number) => {
+    const formated = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value);
+    const price = formated.toString().split('BRL');
+    const response = `R$ ${price[0]}`;
+    return response;
+  };
+
   const getGames = async () => {
     const getResponse = await api.get('/bet/all-bets');
     const { data } = getResponse;
@@ -70,11 +81,7 @@ const Home = ({
                 (
                 {item.created_at}
                 )
-                -
-                {item.price.toLocaleString('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL',
-                })}
+                {` - ${FormatPrice(item.price)}`}
               </Text>
               <Text style={{ fontWeight: 'bold', color: item.type.color }}>
                 {item.type.game_type}

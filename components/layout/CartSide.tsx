@@ -1,3 +1,6 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useEffect, useState } from 'react';
@@ -7,15 +10,27 @@ import {
 import { Icon, Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartItem, RootState } from '../../interface';
+import api from '../../services/api';
+import { CartActions } from '../../store/CartSlice';
 import colors from '../../utils';
-import { FormatPrice } from '../../utils/FormatPrice';
 
 import styles from './Styles';
 
 const { PRIMARY_COLOR } = colors;
 
-const CartSide = (setCartState: React.Dispatch<React.SetStateAction<boolean>>) => {
+const CartSide = ({ setCartState } : { setCartState: (arg: boolean) => void }) => {
   const dispatch = useDispatch();
+
+  const FormatPrice = (value:number) => {
+    const formated = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value);
+    const price = formated.toString().split('BRL');
+    const response = `R$ ${price[0]}`;
+    return response;
+  };
+
   const cart: CartItem[] = useSelector((state: RootState) => state.cart.buyedGames);
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
@@ -23,6 +38,33 @@ const CartSide = (setCartState: React.Dispatch<React.SetStateAction<boolean>>) =
       cart.reduce((prevItem, currentItem) => prevItem + currentItem.price, 0),
     );
   }, [cart]);
+
+  const deleteItemHandler = (id: number) => {
+    dispatch(CartActions.deleteGame(id));
+    if (cart.length < 2) { setCartState(false); }
+  };
+
+  const handleBuyGames = async () => {
+    try {
+      if (cart.length === 0) {
+        alert('Opa, adicione algum jogo ao carrinho primeiro!');
+        return;
+      }
+      console.log(cart);
+      if (totalPrice < 30) {
+        alert(
+          'Opa, para completar essa ação seu carrinho deve ter um valor maior que R$30,00. Continue comprando e tente novamente',
+        );
+        return;
+      }
+      await api.post('/bet/new-bet', { games: cart });
+      dispatch(CartActions.clearCart());
+      setCartState(false);
+      alert('Jogo adicionado com sucesso!');
+    } catch (err) {
+      alert(err);
+    }
+  };
   return (
     <View style={styles.animatedBox}>
       <View style={styles.mainContainer}>
@@ -47,21 +89,31 @@ const CartSide = (setCartState: React.Dispatch<React.SetStateAction<boolean>>) =
         {cart.map((game) => (
           <View
             key={cart.indexOf(game)}
-            style={[styles.recentGame, { borderLeftColor: game.color }]}
+            style={styles.recentGameContainer}
           >
-            <Text style={{ textAlign: 'justify' }}>
-              {game.numbers.join(', ')}
-            </Text>
-            <Text>
+            <View
+              key={cart.indexOf(game)}
+              style={[styles.recentGame, { borderLeftColor: game.color }]}
+            >
+              <Text style={{ textAlign: 'justify' }}>
+                {game.numbers.join(', ')}
+              </Text>
+              <Text>
 
-              {FormatPrice(game.price)}
-            </Text>
-            <Text style={{ fontWeight: 'bold', color: game.color }}>
-              {game.type}
-            </Text>
+                {FormatPrice(game.price)}
+              </Text>
+              <Text style={{ fontWeight: 'bold', color: game.color }}>
+                {game.type}
+              </Text>
+            </View>
+            <Icon
+              onPress={() => deleteItemHandler(cart.indexOf(game))}
+              name="delete"
+              type="material"
+              color="#ed2939"
+            />
           </View>
         ))}
-
       </View>
       <View>
         <Text style={styles.price}>
@@ -70,6 +122,7 @@ const CartSide = (setCartState: React.Dispatch<React.SetStateAction<boolean>>) =
           {FormatPrice(totalPrice)}
         </Text>
         <Button
+          onPress={handleBuyGames}
           title="Save"
           buttonStyle={styles.saveButton}
           titleStyle={styles.safeTitle}
