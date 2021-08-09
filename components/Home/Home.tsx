@@ -59,7 +59,10 @@ const Home = ({
           <Text> Opps, parece que não temos nenhum jogo aqui! </Text>
         ) : (
           recentGames.map((item) => (
-            <View key={item.id} style={[styles.recentGame, { borderLeftColor: item.type.color }]}>
+            <View
+              key={recentGames.indexOf(item)}
+              style={[styles.recentGame, { borderLeftColor: item.type.color }]}
+            >
               <Text style={{ textAlign: 'justify' }}>
                 {item.choosen_numbers}
               </Text>

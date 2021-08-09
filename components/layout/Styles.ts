@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   recentGame: {
     marginRight: 20,
     marginTop: 20,
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 4,
     borderLeftColor: '#000',
     borderLeftWidth: 5,
@@ -50,6 +50,13 @@ const styles = StyleSheet.create({
     color: PRIMARY_COLOR,
     fontSize: 20,
     fontStyle: 'italic',
+  },
+  price: {
+    fontSize: 25,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    color: '#707070',
+    margin: 10,
   },
 });
 export default styles;
