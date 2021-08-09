@@ -58,8 +58,8 @@ const Home = ({
         { recentGames.length === 0 ? (
           <Text> Opps, parece que não temos nenhum jogo aqui! </Text>
         ) : (
-          recentGames.map((item, id) => (
-            <View key={id} style={[styles.recentGame, { borderLeftColor: item.type.color }]}>
+          recentGames.map((item) => (
+            <View key={item.id} style={[styles.recentGame, { borderLeftColor: item.type.color }]}>
               <Text style={{ textAlign: 'justify' }}>
                 {item.choosen_numbers}
               </Text>
