@@ -1,5 +1,4 @@
 /* eslint-disable no-alert */
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-unused-vars */
 import React from 'react';
@@ -29,13 +28,11 @@ const Login = ({
       initialValues={{ email: '', password: '' }}
       onSubmit={async (values) => {
         try {
-          console.log(values.email, values.password);
           const postResponse = await api.post('/login', {
             email: values.email,
             password: values.password,
           });
           const { data } = postResponse;
-          console.log(data);
           dispatch(
             AuthAction.login({
               name: data.user.name,

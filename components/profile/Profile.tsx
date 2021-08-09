@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
@@ -16,9 +15,6 @@ const Profile = ({
   navigation,
 }: StackScreenProps<RootStackParamList, 'NotFound'>) => {
   const user = useSelector((state: RootState) => state.Auth.user);
-  useState(() => {
-    console.log(user.picture);
-  });
 
   const image = {
     uri:

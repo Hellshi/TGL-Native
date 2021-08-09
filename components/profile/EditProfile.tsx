@@ -1,5 +1,4 @@
 /* eslint-disable no-alert */
-/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useState } from 'react';
@@ -37,7 +36,6 @@ const EditProfile = () => {
 
     if (!result.cancelled) {
       setSingleFile(result.uri);
-      console.log(result);
       const fileName = result.uri.split('/').pop() || '';
       setFile(fileName);
     }
@@ -46,15 +44,14 @@ const EditProfile = () => {
   const addPicture = async () => {
     const formData = new FormData();
     const type = file.split('.');
+    // @ts-ignore
     formData.append('file', { uri: singleFile, name: file, type: `image/${type[1]}` });
-    console.log(formData);
     try {
       const response = await api.post('/file/add-pic', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      console.log(response.status);
     } catch (err) {
-      console.log({ err });
+      alert({ err });
     }
   };
 
@@ -107,7 +104,7 @@ const EditProfile = () => {
                 }
                 alert('Dados atualizados con sucesso');
               } catch (error) {
-                console.log(error);
+                alert(error);
               }
             }}
           >

@@ -1,6 +1,5 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-unused-vars */
 import { StackScreenProps } from '@react-navigation/stack';
@@ -19,23 +18,10 @@ const Home = ({
 }: StackScreenProps<RootStackParamList, 'NotFound'>) => {
   const [recentGames, setRecentGames] = useState<RecentGames[]>([]);
   const [allGames, setAllGames] = useState<Game[]>([]);
-  useEffect(() => {
-    api('/all-games').then(({ data }) => {
-      setAllGames(data);
-    });
-  }, []);
+  const [selectedFilters, setSelectedFilter] = useState<string[]>([]);
+  const [filteredGames, setFilteredGames] = useState(recentGames);
 
-  const FormatPrice = (value:number) => {
-    const formated = new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(value);
-    const price = formated.toString().split('BRL');
-    const response = `R$ ${price[0]}`;
-    return response;
-  };
-
-  const getGames = async () => {
+  const getBets = async () => {
     const getResponse = await api.get('/bet/all-bets');
     const { data } = getResponse;
     setRecentGames(
@@ -47,11 +33,41 @@ const Home = ({
         })(),
       })),
     );
+    setFilteredGames(recentGames);
+  };
+  useEffect(() => {
+    api('/all-games').then(({ data }) => {
+      setAllGames(data);
+      getBets();
+    });
+  }, []);
+
+  const filterGameHandler = (filter: string) => {
+    const index = selectedFilters.indexOf(filter);
+    if (index < 0) {
+      setSelectedFilter((prevFilters) => [...prevFilters, filter]);
+    } else {
+      setSelectedFilter((prevFilters) => prevFilters.filter((item) => item !== filter));
+    }
   };
 
   useEffect(() => {
-    getGames();
-  }, []);
+    if (selectedFilters.length === 0) {
+      setFilteredGames(recentGames);
+    } else {
+      setFilteredGames(recentGames.filter((game) => selectedFilters.indexOf(game.type.game_type) !== -1));
+    }
+  }, [selectedFilters, recentGames]);
+
+  const FormatPrice = (value:number) => {
+    const formated = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value);
+    const price = formated.toString().split('BRL');
+    const response = `R$ ${price[0]}`;
+    return response;
+  };
 
   return (
     <ScrollView style={styles.main}>
@@ -61,17 +77,26 @@ const Home = ({
           <Text style={{ fontStyle: 'italic' }}>Filters</Text>
           <View style={styles.buttons}>
             {allGames.map((game) => (
-              <Button title={game.game_type} buttonStyle={[styles.button, { borderColor: game.color }]} titleStyle={{ color: game.color }} />
+              <Button
+                key={game.id}
+                onPress={() => filterGameHandler(game.game_type)}
+                title={game.game_type}
+                buttonStyle={[styles.button, {
+                  borderColor: game.color,
+                  backgroundColor: selectedFilters.indexOf(game.game_type) > -1 ? game.color : '#fff',
+                }]}
+                titleStyle={{ color: selectedFilters.indexOf(game.game_type) > -1 ? '#fff' : game.color }}
+              />
             ))}
           </View>
 
         </View>
-        { recentGames.length === 0 ? (
+        { filteredGames.length === 0 ? (
           <Text> Opps, parece que não temos nenhum jogo aqui! </Text>
         ) : (
-          recentGames.map((item) => (
+          filteredGames.map((item) => (
             <View
-              key={recentGames.indexOf(item)}
+              key={item.id}
               style={[styles.recentGame, { borderLeftColor: item.type.color }]}
             >
               <Text style={{ textAlign: 'justify' }}>

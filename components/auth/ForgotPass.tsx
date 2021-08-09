@@ -1,6 +1,5 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react';
 import {

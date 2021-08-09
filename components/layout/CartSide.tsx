@@ -1,6 +1,5 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-unused-expressions */
-/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useEffect, useState } from 'react';
@@ -50,7 +49,6 @@ const CartSide = ({ setCartState } : { setCartState: (arg: boolean) => void }) =
         alert('Opa, adicione algum jogo ao carrinho primeiro!');
         return;
       }
-      console.log(cart);
       if (totalPrice < 30) {
         alert(
           'Opa, para completar essa ação seu carrinho deve ter um valor maior que R$30,00. Continue comprando e tente novamente',
