@@ -9,7 +9,17 @@ const AuthSlice = createSlice({
       name: '',
       email: '',
       is_admin: false,
-      picture: {},
+      picture: {
+        created_at: '',
+        file: '',
+        id: '',
+        name: '',
+        subtype: '',
+        type: '',
+        updated_at: '',
+        url: '',
+        user_id: 0,
+      },
     },
   },
   reducers: {
@@ -21,10 +31,25 @@ const AuthSlice = createSlice({
       state.user = {
         name: '',
         email: '',
-        picture: {},
+        picture: {
+          created_at: '',
+          file: '',
+          id: '',
+          name: '',
+          subtype: '',
+          type: '',
+          updated_at: '',
+          url: '',
+          user_id: 0,
+        },
         is_admin: false,
       };
       state.isAuth = false;
+    },
+    upadateUser(state, action) {
+      state.user.email = action.payload.email;
+      state.user.name = action.payload.name;
+      state.user.picture.url = action.payload.uri;
     },
   },
 });

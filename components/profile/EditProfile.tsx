@@ -16,6 +16,7 @@ import { AuthAction } from '../../store/AuthSlice';
 import styles from './styles';
 import colors from '../../utils';
 import api from '../../services/api';
+import { ModalActions } from '../../store/ModalSlice';
 
 const { PRIMARY_COLOR } = colors;
 
@@ -57,7 +58,7 @@ const EditProfile = () => {
 
   const showConfirmDialog = () => Alert.alert(
     'Are your sure?',
-    'Are you sure you want to remove this beautiful box?',
+    'This action will delete you account permanently, are you sure you want to proceed?',
     [
       {
         text: 'Yes',
@@ -102,7 +103,14 @@ const EditProfile = () => {
                 if (file.trim().length > 0) {
                   await addPicture();
                 }
-                alert('Dados atualizados con sucesso');
+                dispatch(AuthAction.upadateUser({
+                  email: values.email,
+                  name: values.name,
+                  uri: singleFile,
+                }));
+                // eslint-disable-next-line no-console
+                console.log(file);
+                dispatch(ModalActions.openModal('Dados atualizados con sucesso'));
               } catch (error) {
                 alert(error);
               }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-use-before-define */
@@ -8,18 +9,35 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { RootStackParamList } from '../../types';
 import { Game, RecentGames } from '../../interface';
 import api from '../../services/api';
 import styles from './styles';
+import { ModalActions } from '../../store/ModalSlice';
 
 const Home = ({
   route,
 }: StackScreenProps<RootStackParamList, 'NotFound'>) => {
+  useEffect(() => {
+    getGames();
+    getBets();
+  }, []);
+  const dispatch = useDispatch();
   const [recentGames, setRecentGames] = useState<RecentGames[]>([]);
-  const [allGames, setAllGames] = useState<Game[]>([]);
+  const [allGames, setAllGames] = useState<Game[] >([]);
   const [selectedFilters, setSelectedFilter] = useState<string[]>([]);
   const [filteredGames, setFilteredGames] = useState(recentGames);
+
+  const getGames = async () => {
+    try {
+      const { data } = await api.get('/all-games');
+      setAllGames(data);
+    } catch (err) {
+      console.log(err);
+      dispatch(ModalActions.openModal(`${err}`));
+    }
+  };
 
   const getBets = async () => {
     const getResponse = await api.get('/bet/all-bets');
@@ -35,12 +53,6 @@ const Home = ({
     );
     setFilteredGames(recentGames);
   };
-  useEffect(() => {
-    api('/all-games').then(({ data }) => {
-      setAllGames(data);
-      getBets();
-    });
-  }, []);
 
   const filterGameHandler = (filter: string) => {
     const index = selectedFilters.indexOf(filter);

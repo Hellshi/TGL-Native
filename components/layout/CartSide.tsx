@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CartItem, RootState } from '../../interface';
 import api from '../../services/api';
 import { CartActions } from '../../store/CartSlice';
+import { ModalActions } from '../../store/ModalSlice';
 import colors from '../../utils';
 
 import styles from './Styles';
@@ -44,22 +45,22 @@ const CartSide = ({ setCartState } : { setCartState: (arg: boolean) => void }) =
   };
 
   const handleBuyGames = async () => {
+    // Substituir alert por modal
     try {
       if (cart.length === 0) {
-        alert('Opa, adicione algum jogo ao carrinho primeiro!');
+        dispatch(ModalActions.openModal('Opa, adicione algum jogo ao carrinho primeiro!'));
         return;
       }
       if (totalPrice < 30) {
-        alert(
-          'Opa, para completar essa ação seu carrinho deve ter um valor maior que R$30,00. Continue comprando e tente novamente',
-        );
+        dispatch(ModalActions.openModal('Opa, para completar essa ação seu carrinho deve ter um valor maior que R$30,00. Continue comprando e tente novamente'));
         return;
       }
       await api.post('/bet/new-bet', { games: cart });
       dispatch(CartActions.clearCart());
       setCartState(false);
-      alert('Jogo adicionado com sucesso!');
+      dispatch(ModalActions.openModal('Jogo adicionado com sucesso!'));
     } catch (err) {
+      // Readicionar os console.log no catch
       alert(err);
     }
   };

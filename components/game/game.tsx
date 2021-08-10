@@ -14,6 +14,7 @@ import { CartActions } from '../../store/CartSlice';
 import { Game } from '../../interface';
 import styles from './style';
 import api from '../../services/api';
+import { ModalActions } from '../../store/ModalSlice';
 
 const game = () => {
   const dispatch = useDispatch();
@@ -30,12 +31,21 @@ const game = () => {
   });
   const [selectedNumbers, setSelectedNumbers] = useState<(number | string)[]>(
     []);
+    // concertar
   useEffect(() => {
-    api('/all-games').then(({ data }) => {
+    getGames();
+  }, []);
+
+  const getGames = async () => {
+    try {
+      const { data } = await api.get('/all-games');
       setGames(data);
       setSelectedGame(data[0]);
-    });
-  }, []);
+    } catch (err) {
+      console.log(err);
+      alert(err);
+    }
+  };
 
   const selectNumber = (selected: number | string) => {
     const value = selected;
@@ -50,9 +60,7 @@ const game = () => {
     } else if (selectedNumbers.indexOf(value) !== -1) {
       setSelectedNumbers((currentArr) => currentArr.filter((number) => number !== value));
     } else {
-      alert(
-        'Oops. Parece que você já adicionou o número máximo de números. Adicione ao carrinho!',
-      );
+      dispatch(ModalActions.openModal('Oops. Parece que você já adicionou o número máximo de números. Adicione ao carrinho!'));
     }
   };
 
@@ -62,11 +70,9 @@ const game = () => {
 
   const handleAddToCart = () => {
     if (selectedNumbers.length < selectedGame.max_number) {
-      alert(
-        `Opps, selecione mais ${
-          selectedGame.max_number - selectedNumbers.length
-        } números para continuar!`,
-      );
+      dispatch(ModalActions.openModal(`Opps, selecione mais ${
+        selectedGame.max_number - selectedNumbers.length
+      } números para continuar!`));
       return;
     }
     dispatch(CartActions.buyGames({

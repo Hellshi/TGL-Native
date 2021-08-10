@@ -1,11 +1,11 @@
 /* eslint-disable no-alert */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 import {
   TextInput, View, StyleSheet, Text,
 } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Input } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Formik } from 'formik';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -16,11 +16,13 @@ import { RootStackParamList } from '../../types';
 import { RootState } from '../../interface';
 import api from '../../services/api';
 import styles from './styles';
+import { ModalActions } from '../../store/ModalSlice';
 
-const { PRIMARY_COLOR, BORDER_COLOR, BACKGROUND_COLOR } = colors;
+const { PRIMARY_COLOR } = colors;
 const Login = ({
   navigation,
 }: StackScreenProps<RootStackParamList, 'NotFound'>) => {
+  const [secureEntry, setSecuryEntry] = useState(true);
   const dispatch = useDispatch();
   const IsloggedIn = useSelector((state: RootState) => state.Auth.isAuth);
   return (
@@ -44,7 +46,7 @@ const Login = ({
           api.defaults.headers.Authorization = `Bearer ${data.token.token}`;
           navigation.push('Home');
         } catch (error) {
-          alert('Credenciais de usuário inválidas');
+          dispatch(ModalActions.openModal('Credenciais de usuário inválidas'));
         }
       }}
     >
@@ -78,10 +80,19 @@ const Login = ({
                 onBlur={handleBlur('email')}
                 value={values.email}
               />
-              <TextInput
-                style={styles.TextInput}
+              <Input
+                rightIcon={(
+                  <Icon
+                    name="eye"
+                    size={20}
+                    color="black"
+                    onPress={() => setSecuryEntry(!secureEntry)}
+                  />
+                )}
+                inputStyle={{ fontSize: 15 }}
+                inputContainerStyle={[styles.TextInput, { paddingTop: 0, margin: 0 }]}
                 placeholder="Password"
-                secureTextEntry
+                secureTextEntry={secureEntry}
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
                 value={values.password}

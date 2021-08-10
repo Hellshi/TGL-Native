@@ -38,9 +38,10 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   TextInput: {
+    margin: 8,
     borderBottomWidth: 1,
     borderBottomColor: BORDER_COLOR,
-    padding: 10,
+    paddingTop: 10,
   },
   fogotPass: {
     textAlign: 'left',

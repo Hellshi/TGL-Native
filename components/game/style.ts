@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   header: {
     margin: 20,
-    height: (0.33 * height),
+    maxHeight: (0.45 * height),
     justifyContent: 'space-between',
   },
   title: {

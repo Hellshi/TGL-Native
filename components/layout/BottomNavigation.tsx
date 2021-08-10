@@ -41,30 +41,30 @@ const BottomNavigation = ({
           name="Home"
           component={Home}
           options={{
-            tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={PRIMARY_COLOR} size={size} />
             ),
+            tabBarActiveTintColor: PRIMARY_COLOR,
           }}
         />
         <Tab.Screen
           name="games"
           component={GameScreen}
           options={{
-            tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="bitcoin" color={PRIMARY_COLOR} size={size} />
             ),
+            tabBarActiveTintColor: PRIMARY_COLOR,
           }}
         />
         <Tab.Screen
           name="Profile"
           component={ProfileScreens}
           options={{
-            tabBarShowLabel: false,
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account" color={PRIMARY_COLOR} size={size} />
             ),
+            tabBarActiveTintColor: PRIMARY_COLOR,
           }}
         />
       </Tab.Navigator>

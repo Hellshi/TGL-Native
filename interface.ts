@@ -18,8 +18,11 @@ export interface RootState {
       };
   }
 }
-
 cart: {buyedGames: []}
+Modal: {
+  isVisible: boolean,
+  error: string,
+}
 }
 
 export interface Game {
